@@ -1,30 +1,42 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {ITodo} from "../../types/todo";
 
-interface IProps {
-  title: string;
+interface ITodoProps {
+  todo: ITodo;
+  onRemove: () => void;
 }
 
-const Todo = (props: IProps) => {
-  return (
-    <View>
-      <Text style={todoStyles.titleText}>
-        {props.title}
-      </Text>
-    </View>
+const Todo = (props: ITodoProps) => {
+
+  const handlePress = () => {    
+    props.onRemove();
+  }
+
+  return (    
+    <TouchableOpacity
+      activeOpacity={0.5}
+      onLongPress={() => handlePress()}
+    >
+      <View style={todoStyle.container}>
+        <Text style={todoStyle.text}>{props.todo.title}</Text>
+      </View>
+    </TouchableOpacity>    
   );
-};
+}
 
-const todoStyles = StyleSheet.create({
-  titleText: {
-    fontSize: 30,
-    fontWeight: "bold"
-  },
-  
-})
+const todoStyle = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 15,
+    borderWidth: 1,
+    borderColor: "#eee",
+    borderRadius: 5
+  },  
+  text: {
+    color: "red",
+  }
+});
 
-export default Todo;
+export {Todo};
